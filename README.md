@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # RHanLP ：R Interface of HanLP(Han Language Processing,version 1.5.3)
 ====
 
@@ -47,7 +46,3 @@ hanlp.parseDependency(text = doc, mode = "NN") ## 神经网络模型
 hanlp.parseDependency(text = doc, mode = "CRF") ## CRF模型
 hanlp.parseDependency(text = doc, mode = "MaxEnt") ## 最大熵模型
 ```
-=======
-# RHanLP
-R/HanLP Interface
->>>>>>> 2ae3a9e5002b27cf214e73682a6afe7ea80a1e1d
