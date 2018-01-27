@@ -1,5 +1,4 @@
 # RHanLP ：R Interface of HanLP(Han Language Processing,version 1.5.3)
-====
 
 请先阅读[HanLP](https://github.com/hankcs/HanLP)相关文档和协议，加载所有数据和模型内存不少于3G
 
@@ -31,7 +30,6 @@ hanlp.segment(doc,mode='NER') ##开启命名实体识别的分词
 hanlp.extractWords(text = doc, size = 10) ## 关键词提取
 hanlp.extractPhrase(text = doc, size = 5L) ## 关键短语提取
 hanlp.extractSummary(text = doc, size = 5L) ## 关键句子提取（文本摘要）
-
 ```
 
 ### 繁简转化
