@@ -30,6 +30,7 @@ hanlp.segment(doc,mode='NER') ##开启命名实体识别的分词
 hanlp.extractWords(text = doc, size = 10) ## 关键词提取
 hanlp.extractPhrase(text = doc, size = 5L) ## 关键短语提取
 hanlp.extractSummary(text = doc, size = 5L) ## 关键句子提取（文本摘要）
+hanlp.newWordDiscover(doc=doc) ##新词发现
 ```
 
 ### 繁简转化
