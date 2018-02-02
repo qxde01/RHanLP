@@ -385,7 +385,7 @@ hanlp.suggest <- R6::R6Class(
 #' @param neg_sample Negative sample number,default 5.
 #' @param type \code{skipgram} or \code{cbow} model, default \code{skipgram}.
 #' @param alpha the starting learning rate; default is 0.025 for \code{skipgram} and 0.05 for \code{cbow}.
-#' @param softmax
+#' @param softmax Whether or not to use HierarchicalSoftmax,default \code{TRUE}.
 #' @param threads_num the threads number default 2.
 #' @return NULL
 #' @author qxde01
@@ -486,5 +486,100 @@ hanlp.wordVectorModel <- R6::R6Class(
       return(.to_R_c(out))
     }
 
+  )
+)
+
+
+#' A R6class of naive Bayes classifier .
+#'
+#' @title  Naive Bayes classifier.
+#' @description a R6 class of naive Bayes classifier.
+#' @format \code{\link{R6Class}} object.
+#' @section Usage:
+#' For usage details see \bold{Methods, Arguments and Examples} sections.
+#' \preformatted{
+#' naiveBayes = hanlp.naiveBayesClassify$new()
+#' naiveBayes$train(file_folder)
+#' naiveBayes$predict(text)
+#' naiveBayes$test(test_data)
+#' naiveBayes$getModel()
+#' }
+#' @section Methods:
+#' \describe{
+#'   \item{\code{$new()}}{Constructor for Naive Bayes classifier.}
+#'   \item{\code{$train(file_folder)}}{Train Naive Bayes classifier,detail in  https://github.com/hankcs/HanLP/wiki .}
+#'   \item{\code{$predict(text)}}{Predict \code{text} category.}
+#'   \item{\code{$test(test_data)}}{Predict  a batch of text categories,\code{test_data} is a character vector.}
+#'   \item{\code{$getModel()}}{Output some infomation of Naive Bayes model. }
+#'}
+#' @author qxde01
+#' @export
+#' @examples \dontrun{
+#' naiveBayes = hanlp.naiveBayesClassify$new()
+#' naiveBayes$train(file_folder)
+#' naiveBayes$predict(text)
+#' naiveBayes$test(test_data)
+#' naiveBayes$getModel()
+#' }
+#'
+
+
+hanlp.naiveBayesClassify <- R6::R6Class(
+  classname = c("byesModel"),
+  lock_objects = FALSE,
+  public = list(
+    byes = function() {
+      if (!exists("byes", envir = .RHanLPEnv)) {
+        assign(
+          "byes",
+          .jnew(
+            'com.hankcs.hanlp.classification.classifiers.NaiveBayesClassifier'),
+          envir = .RHanLPEnv
+        )
+      }
+      get('byes', envir = .RHanLPEnv)
+    },
+    train = function(file_folder) {
+      if(is.null(file_folder))
+        stop('Please input right train data path!')
+      self$byes()$train(.jnew('java.lang.String', file_folder))
+    },
+    predict =
+      function(text) {
+        out<-self$byes()$predict(text)
+        out<-.jstrVal(out)
+        return(.to_R_c(out))
+      },
+    getModel=function(){
+      model=self$byes()$getModel()
+      logPriors=.jstrVal(model$logPriors)
+      train_data_size=model$n
+      catalog_num=model$c
+      features_num=model$d
+      catalog=model$catalog
+      # logLikelihoods=.jstrVal(model$logLikelihoods)
+      # logLikelihoods=unlist(strsplit(logLikelihoods,'}, '))
+      # logLikelihoods=sapply(logLikelihoods,FUN=function(x)unlist(strsplit(x,'=\\{')),USE.NAMES = F)
+      # logLikelihoods=as.data.frame(t(logLikelihoods))
+      # logLikelihoods$V1<-as.integer(gsub("\\{","",logLikelihoods$V1))
+      # colnames(logLikelihoods)<-c("id","logLikelihoods")
+      return(list(logPriors=.to_R_c(logPriors),train_data_size=train_data_size,catalog_num=catalog_num,features_num=features_num,catalog=catalog))
+    },
+    test=function(test_data=NULL){
+      .label_ext<-function(x){
+        #n=length(x)
+        x1=unlist(strsplit(as.character(x),'='))
+        ind1=seq(1,length(x1),2)
+        lab=x1[ind1]
+        prob=as.numeric(x1[ind1+1])
+        return(lab[prob==max(prob)])
+      }
+      if(is.null(test_data))
+        stop("Your test data set is NULL!")
+      out<-sapply(test_data,self$predict,USE.NAMES = F)
+      out<-as.data.frame(t(out))
+      out$predict=apply(out,1,.label_ext)
+      return(out)
+    }
   )
 )
