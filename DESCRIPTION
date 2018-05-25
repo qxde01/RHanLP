@@ -1,11 +1,11 @@
 Package: RHanLP
-Version: 0.1.0
+Version: 0.1.1
 Title: R/HanLP Interface
 Type: Package
 Date: 2018-02-01
 Author: qxde01
 Maintainer: qxde01 <qxde01@163.com>
-Description: An R interface to HanLP (Version 1.5.3),details at https://github.com/hankcs/HanLP .
+Description: An R interface to HanLP (Version 1.6.4),details at https://github.com/hankcs/HanLP .
 Depends: R (>= 3.1.0), rJava (>= 0.9-8)
 Imports: R6 (>= 2.2.2)
 SystemRequirements: Java (>= 8)
@@ -14,5 +14,5 @@ Encoding: UTF-8
 License: Apache 2.0
 NeedsCompilation: no
 Repository: github (https://github.com/qxde01/RHanLP)
-Date/Publication: 2018-01-31 16:17:29
+Date/Publication: 2018-05-25 16:17:29
 RoxygenNote: 6.0.1
