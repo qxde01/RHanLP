@@ -201,7 +201,7 @@ hanlp.segment<-function(text,nature=TRUE,mode='standard'){
   }
   else if (mode=='HMM') {
     if(!exists("HMMSegment", envir = .RHanLPEnv)){
-      assign("HMMSegment",rJava::.jnew('com.hankcs.hanlp.seg.CRF.HMMSegment'),envir = .RHanLPEnv)
+      assign("HMMSegment",rJava::.jnew('com.hankcs.hanlp.seg.HMM.HMMSegment'),envir = .RHanLPEnv)
     }
     segment=get("HMMSegment",envir = .RHanLPEnv)$seg
 
