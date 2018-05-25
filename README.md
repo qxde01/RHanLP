@@ -1,6 +1,8 @@
-# RHanLP ：R Interface of HanLP(Han Language Processing,version 1.5.3)
+# RHanLP ：R Interface of HanLP(Han Language Processing,version 1.6.4)
 
-请先阅读[HanLP](https://github.com/hankcs/HanLP)相关文档和协议，加载所有数据和模型内存不少于3G
+请先阅读[HanLP](https://github.com/hankcs/HanLP)相关文档和协议，加载所有数据和模型内存不少于2G
+* hanlp-4.6.4
+* data-for-1.6.2
 
 ## 安装
  
